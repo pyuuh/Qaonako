@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#FFFFFF',
     marginBottom: 5,
+    marginTop: 30,
   },
   
   date: {
@@ -280,25 +281,330 @@ export const styles = StyleSheet.create({
     color: '#6B8F6E',
   },
 
-  // Health Tip
-  healthTipSection: {
+  // Calendar Styles
+  calendarSection: {
     paddingHorizontal: 20,
     marginBottom: 25,
   },
   
-  healthTipCard: {
-    backgroundColor: '#E8F5E8',
+  calendarContainer: {
+    backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    padding: 20,
-    borderColor: '#A8D5AB',
-    borderWidth: 1,
+    padding: 15,
+    shadowColor: '#2D5530',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   
-  healthTipText: {
+  calendarHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 15,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E8F5E8',
+  },
+  
+  calendarHeaderText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#6B8F6E',
+    textAlign: 'center',
+    width: 35,
+  },
+  
+  calendarDays: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  
+  calendarDay: {
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 12,
+  },
+  
+  calendarToday: {
+    backgroundColor: '#52B788',
+  },
+  
+  futureDay: {
+    opacity: 0.5,
+  },
+  
+  calendarDayNumber: {
     fontSize: 14,
+    fontWeight: '700',
     color: '#2D5530',
-    lineHeight: 20,
+    marginBottom: 8,
+  },
+  
+  todayNumber: {
+    color: '#FFFFFF',
+  },
+  
+  futureNumber: {
+    color: '#8FA892',
+  },
+  
+  calendarIndicators: {
+    flexDirection: 'row',
+    gap: 2,
+  },
+  
+  indicator: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  
+  mealIndicator: {
+    backgroundColor: '#52B788',
+  },
+  
+  poopIndicator: {
+    backgroundColor: '#8B4513',
+  },
+  
+  waterIndicator: {
+    backgroundColor: '#4A90E2',
+  },
+  
+  incomplete: {
+    backgroundColor: '#E0E0E0',
+  },
+
+  // AI Section Styles
+  aiSection: {
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  
+  aiCard: {
+    marginBottom: 10,
+  },
+  
+  aiAlertGood: {
+    backgroundColor: '#D4EDDA',
+    borderRadius: 15,
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderLeftWidth: 4,
+    borderLeftColor: '#52B788',
+  },
+  
+  aiAlertWarning: {
+    backgroundColor: '#FFF3CD',
+    borderRadius: 15,
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    borderLeftWidth: 4,
+    borderLeftColor: '#F0C94A',
+  },
+  
+  aiAlertIcon: {
+    fontSize: 20,
+    marginRight: 12,
+    marginTop: 2,
+  },
+  
+  aiAlertContent: {
+    flex: 1,
+  },
+  
+  aiAlertTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#2D5530',
+    marginBottom: 4,
+  },
+  
+  aiAlertText: {
+    fontSize: 13,
+    color: '#2D5530',
+    lineHeight: 18,
+  },
+
+  // Body Rhythm Styles
+  rhythmSection: {
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  
+  rhythmCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 20,
+    shadowColor: '#2D5530',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  
+  rhythmTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#2D5530',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  
+  rhythmChart: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    height: 60,
+    marginBottom: 15,
+  },
+  
+  rhythmBar: {
+    alignItems: 'center',
+  },
+  
+  rhythmLevel: {
+    width: 20,
+    backgroundColor: '#52B788',
+    borderRadius: 10,
+    marginBottom: 8,
+  },
+  
+  rhythmTime: {
+    fontSize: 10,
+    color: '#6B8F6E',
+    fontWeight: '600',
+  },
+  
+  rhythmInsight: {
+    fontSize: 13,
+    color: '#2D5530',
+    textAlign: 'center',
     fontWeight: '500',
+  },
+
+  // Challenge Styles
+  challengeSection: {
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  
+  challengeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  
+  challengeCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 15,
+    width: (width - 50) / 2,
+    marginBottom: 10,
+    shadowColor: '#2D5530',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+    alignItems: 'center',
+  },
+  
+  challengeIcon: {
+    fontSize: 24,
+    marginBottom: 8,
+  },
+  
+  challengeTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#2D5530',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  
+  challengeProgress: {
+    fontSize: 12,
+    color: '#6B8F6E',
+    marginBottom: 8,
+  },
+  
+  challengeBar: {
+    width: '100%',
+    height: 4,
+    backgroundColor: '#E8F5E8',
+    borderRadius: 2,
+    marginBottom: 8,
+    overflow: 'hidden',
+  },
+  
+  challengeFill: {
+    height: '100%',
+    backgroundColor: '#52B788',
+    borderRadius: 2,
+  },
+  
+  challengeReward: {
+    fontSize: 11,
+    color: '#F0C94A',
+    fontWeight: '700',
+  },
+
+  // Reports Styles
+  reportsSection: {
+    paddingHorizontal: 20,
+    marginBottom: 25,
+  },
+  
+  reportCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    shadowColor: '#2D5530',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  
+  reportContent: {
+    flex: 1,
+  },
+  
+  reportTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#2D5530',
+    marginBottom: 4,
+  },
+  
+  reportScore: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#52B788',
+    marginBottom: 2,
+  },
+  
+  reportSubtext: {
+    fontSize: 14,
+    color: '#6B8F6E',
+    marginBottom: 2,
+  },
+  
+  reportChange: {
+    fontSize: 12,
+    color: '#52B788',
+    fontWeight: '600',
+  },
+  
+  reportIcon: {
+    fontSize: 24,
   },
 
   // Mood Check-in

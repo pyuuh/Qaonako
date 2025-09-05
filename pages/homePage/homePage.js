@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import { styles } from './homeStyle.js';
+import { styles } from './homeStyle';
 
 const Homepage = () => {
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -156,14 +156,113 @@ const Homepage = () => {
           </View>
         </View>
 
-        {/* Health Tip */}
-        <View style={styles.healthTipSection}>
-          <Text style={styles.sectionTitle}>Health Tip of the Day 📝</Text>
-          <View style={styles.healthTipCard}>
-            <Text style={styles.healthTipText}>
-              Add more fiber to your lunch today! Try including some berries or a small salad to support your digestive health.
-            </Text>
+        {/* AI Features & Alerts */}
+        <View style={styles.aiSection}>
+          <Text style={styles.sectionTitle}>AI Insights 🧠</Text>
+          <View style={styles.aiCard}>
+            <View style={styles.aiAlertGood}>
+              <Text style={styles.aiAlertIcon}>✅</Text>
+              <View style={styles.aiAlertContent}>
+                <Text style={styles.aiAlertTitle}>Great Choice!</Text>
+                <Text style={styles.aiAlertText}>Your breakfast was rich in fiber - perfect for gut health!</Text>
+              </View>
+            </View>
           </View>
+          
+          <View style={styles.aiCard}>
+            <View style={styles.aiAlertWarning}>
+              <Text style={styles.aiAlertIcon}>⚠️</Text>
+              <View style={styles.aiAlertContent}>
+                <Text style={styles.aiAlertTitle}>Consider This</Text>
+                <Text style={styles.aiAlertText}>Too much processed sugar detected. Try swapping for natural alternatives.</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Body Rhythm Analysis */}
+        <View style={styles.rhythmSection}>
+          <Text style={styles.sectionTitle}>Body Rhythm Analysis 🌊</Text>
+          <View style={styles.rhythmCard}>
+            <Text style={styles.rhythmTitle}>Your Digestive Pattern</Text>
+            <View style={styles.rhythmChart}>
+              <View style={styles.rhythmBar}>
+                <Text style={styles.rhythmTime}>6AM</Text>
+                <View style={[styles.rhythmLevel, { height: 20 }]} />
+              </View>
+              <View style={styles.rhythmBar}>
+                <Text style={styles.rhythmTime}>12PM</Text>
+                <View style={[styles.rhythmLevel, { height: 45 }]} />
+              </View>
+              <View style={styles.rhythmBar}>
+                <Text style={styles.rhythmTime}>6PM</Text>
+                <View style={[styles.rhythmLevel, { height: 35 }]} />
+              </View>
+              <View style={styles.rhythmBar}>
+                <Text style={styles.rhythmTime}>12AM</Text>
+                <View style={[styles.rhythmLevel, { height: 10 }]} />
+              </View>
+            </View>
+            <Text style={styles.rhythmInsight}>Your gut is most active around lunch time 🍽️</Text>
+          </View>
+        </View>
+
+        {/* Gamified Challenges */}
+        <View style={styles.challengeSection}>
+          <Text style={styles.sectionTitle}>Today's Challenges 🎯</Text>
+          <View style={styles.challengeGrid}>
+            <TouchableOpacity style={styles.challengeCard}>
+              <Text style={styles.challengeIcon}>🥗</Text>
+              <Text style={styles.challengeTitle}>Veggie Hero</Text>
+              <Text style={styles.challengeProgress}>2/5 servings</Text>
+              <View style={styles.challengeBar}>
+                <View style={[styles.challengeFill, { width: '40%' }]} />
+              </View>
+              <Text style={styles.challengeReward}>+50 points</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.challengeCard}>
+              <Text style={styles.challengeIcon}>💧</Text>
+              <Text style={styles.challengeTitle}>Hydration Master</Text>
+              <Text style={styles.challengeProgress}>6/8 glasses</Text>
+              <View style={styles.challengeBar}>
+                <View style={[styles.challengeFill, { width: '75%' }]} />
+              </View>
+              <Text style={styles.challengeReward}>+30 points</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.challengeCard}>
+              <Text style={styles.challengeIcon}>⏰</Text>
+              <Text style={styles.challengeTitle}>Consistency King</Text>
+              <Text style={styles.challengeProgress}>Log 3 meals</Text>
+              <View style={styles.challengeBar}>
+                <View style={[styles.challengeFill, { width: '67%' }]} />
+              </View>
+              <Text style={styles.challengeReward}>+75 points</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Quick Reports Access */}
+        <View style={styles.reportsSection}>
+          <Text style={styles.sectionTitle}>Weekly Reports 📊</Text>
+          <TouchableOpacity style={styles.reportCard}>
+            <View style={styles.reportContent}>
+              <Text style={styles.reportTitle}>Gut Health Score</Text>
+              <Text style={styles.reportScore}>8.2/10</Text>
+              <Text style={styles.reportChange}>↗️ +0.3 from last week</Text>
+            </View>
+            <Text style={styles.reportIcon}>📈</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.reportCard}>
+            <View style={styles.reportContent}>
+              <Text style={styles.reportTitle}>Digestive Insights</Text>
+              <Text style={styles.reportSubtext}>Your best day was Tuesday!</Text>
+              <Text style={styles.reportChange}>View detailed analysis →</Text>
+            </View>
+            <Text style={styles.reportIcon}>🔍</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Mood Check-In */}
