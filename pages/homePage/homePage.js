@@ -2,6 +2,7 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, ScrollView, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from './homeStyle';
+import FeatureCards from '../../components/featureCard/featureCard';
 
 
 import { useCalories } from '../../hooks/useCalories';
@@ -128,7 +129,10 @@ const Homepage = () => {
         renderFoodsList={renderFoodsList}
         totals={nutrients.totals}
       />
+      <FeatureCards/>
     </SafeAreaView>
+
+    
   );
 };
 

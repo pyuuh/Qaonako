@@ -94,7 +94,6 @@ export const Modals = ({
           </View>
         </View>
       </Modal>
-  <Text>Save</Text>
 
 
       {/* Poop Time Modal */}
