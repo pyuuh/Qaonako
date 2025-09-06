@@ -1,13 +1,15 @@
+
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import { SafeAreaView, StatusBar, ScrollView, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { styles } from './homeStyle';
+
+
+import { useCalories } from '../../hooks/useCalories';
+import { useHydration } from '../../hooks/useHydration';
+import { usePoop } from '../../hooks/usePoop';
+import { useNutrients } from '../../hooks/useNutrients';
+import { Modals } from '../../components/modalsComponent';
+import { SummarySection } from '../../components/summaryComponent';
 
 const Homepage = () => {
   const currentDate = new Date().toLocaleDateString('en-US', {
@@ -17,6 +19,34 @@ const Homepage = () => {
     day: 'numeric',
   });
 
+  // All hooks
+  const calories = useCalories();
+  const hydration = useHydration();
+  const poop = usePoop();
+  const nutrients = useNutrients();
+
+  // Render helper for nutrients modal
+  const renderFoodsList = (nutr) => {
+    const data = nutrients.nutrients[nutr].foods;
+    if (!data.length) return <Text style={styles.smallNote}>No foods yet.</Text>;
+    return (
+      <FlatList
+        data={data}
+        keyExtractor={(_, i) => `${nutr}-${i}`}
+        renderItem={({ item, index }) => (
+          <View style={styles.nutFoodRow}>
+            <Text style={styles.nutFoodText}>
+              {item.name} — {item.grams}g
+            </Text>
+            <TouchableOpacity onPress={() => nutrients.removeFood(nutr, index)}>
+              <Text style={styles.removeText}>Remove</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2D5530" />
@@ -24,275 +54,80 @@ const Homepage = () => {
         
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.greeting}>Good morning! 🌱</Text>
+          <Text style={styles.greeting}>Qaonako 🌱</Text>
           <Text style={styles.date}>{currentDate}</Text>
         </View>
 
-        {/* Daily Summary Cards */}
-        <View style={styles.summarySection}>
-          <Text style={styles.sectionTitle}>Today's Summary</Text>
-          <View style={styles.summaryGrid}>
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryTitle}>Calories</Text>
-              <Text style={styles.summaryValue}>1,240</Text>
-              <Text style={styles.summarySubtext}>/ 1,800 kcal</Text>
-              <View style={styles.progressBar}>
-                <View style={[styles.progressFill, { width: '69%' }]} />
-              </View>
-            </View>
-            
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryTitle}>Hydration</Text>
-              <Text style={styles.summaryValue}>6</Text>
-              <Text style={styles.summarySubtext}>/ 8 glasses 💧</Text>
-              <View style={styles.progressBar}>
-                <View style={[styles.progressFill, { width: '75%' }]} />
-              </View>
-            </View>
-
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryTitle}>Last Poop</Text>
-              <Text style={styles.summaryValue}>2h ago</Text>
-              <Text style={styles.summarySubtext}>Normal 🟤</Text>
-            </View>
-
-            <View style={styles.summaryCard}>
-              <Text style={styles.summaryTitle}>Nutrients</Text>
-              <View style={styles.nutrientBars}>
-                <View style={styles.nutrientBar}>
-                  <View style={[styles.nutrientFill, styles.carbsFill, { width: '60%' }]} />
-                </View>
-                <View style={styles.nutrientBar}>
-                  <View style={[styles.nutrientFill, styles.proteinFill, { width: '45%' }]} />
-                </View>
-                <View style={styles.nutrientBar}>
-                  <View style={[styles.nutrientFill, styles.fatsFill, { width: '70%' }]} />
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* Quick Add Buttons */}
-        <View style={styles.quickAddSection}>
-          <Text style={styles.sectionTitle}>Quick Add</Text>
-          <View style={styles.quickAddGrid}>
-            <TouchableOpacity style={styles.quickAddButton}>
-              <Text style={styles.quickAddIcon}>🍽️</Text>
-              <Text style={styles.quickAddText}>Meal</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.quickAddButton}>
-              <Text style={styles.quickAddIcon}>🚽</Text>
-              <Text style={styles.quickAddText}>Poop</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.quickAddButton}>
-              <Text style={styles.quickAddIcon}>💧</Text>
-              <Text style={styles.quickAddText}>Water</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.quickAddButton}>
-              <Text style={styles.quickAddIcon}>🏃</Text>
-              <Text style={styles.quickAddText}>Activity</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Progress Rings */}
-        <View style={styles.progressSection}>
-          <Text style={styles.sectionTitle}>Daily Goals</Text>
-          <View style={styles.progressRingsContainer}>
-            <View style={styles.progressRing}>
-              <View style={styles.ringOuter}>
-                <View style={styles.ringInner}>
-                  <Text style={styles.ringPercentage}>69%</Text>
-                </View>
-              </View>
-              <Text style={styles.ringLabel}>Food</Text>
-            </View>
-            
-            <View style={styles.progressRing}>
-              <View style={styles.ringOuter}>
-                <View style={styles.ringInner}>
-                  <Text style={styles.ringPercentage}>100%</Text>
-                </View>
-              </View>
-              <Text style={styles.ringLabel}>Poop</Text>
-            </View>
-            
-            <View style={styles.progressRing}>
-              <View style={styles.ringOuter}>
-                <View style={styles.ringInner}>
-                  <Text style={styles.ringPercentage}>75%</Text>
-                </View>
-              </View>
-              <Text style={styles.ringLabel}>Water</Text>
-            </View>
-          </View>
-          
-          <View style={styles.streakContainer}>
-            <Text style={styles.streakText}>🔥 5 day streak!</Text>
-          </View>
-        </View>
-
-        {/* Reminders Panel */}
-        <View style={styles.remindersSection}>
-          <Text style={styles.sectionTitle}>Reminders</Text>
-          <View style={styles.reminderCard}>
-            <Text style={styles.reminderIcon}>⏰</Text>
-            <View style={styles.reminderContent}>
-              <Text style={styles.reminderTitle}>Next meal in 2h 30m</Text>
-              <Text style={styles.reminderSubtext}>Don't forget your afternoon snack!</Text>
-            </View>
-          </View>
-          
-          <View style={styles.reminderCard}>
-            <Text style={styles.reminderIcon}>💧</Text>
-            <View style={styles.reminderContent}>
-              <Text style={styles.reminderTitle}>Hydration check</Text>
-              <Text style={styles.reminderSubtext}>You're doing great! 2 more glasses to go.</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* AI Features & Alerts */}
-        <View style={styles.aiSection}>
-          <Text style={styles.sectionTitle}>AI Insights 🧠</Text>
-          <View style={styles.aiCard}>
-            <View style={styles.aiAlertGood}>
-              <Text style={styles.aiAlertIcon}>✅</Text>
-              <View style={styles.aiAlertContent}>
-                <Text style={styles.aiAlertTitle}>Great Choice!</Text>
-                <Text style={styles.aiAlertText}>Your breakfast was rich in fiber - perfect for gut health!</Text>
-              </View>
-            </View>
-          </View>
-          
-          <View style={styles.aiCard}>
-            <View style={styles.aiAlertWarning}>
-              <Text style={styles.aiAlertIcon}>⚠️</Text>
-              <View style={styles.aiAlertContent}>
-                <Text style={styles.aiAlertTitle}>Consider This</Text>
-                <Text style={styles.aiAlertText}>Too much processed sugar detected. Try swapping for natural alternatives.</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* Body Rhythm Analysis */}
-        <View style={styles.rhythmSection}>
-          <Text style={styles.sectionTitle}>Body Rhythm Analysis 🌊</Text>
-          <View style={styles.rhythmCard}>
-            <Text style={styles.rhythmTitle}>Your Digestive Pattern</Text>
-            <View style={styles.rhythmChart}>
-              <View style={styles.rhythmBar}>
-                <Text style={styles.rhythmTime}>6AM</Text>
-                <View style={[styles.rhythmLevel, { height: 20 }]} />
-              </View>
-              <View style={styles.rhythmBar}>
-                <Text style={styles.rhythmTime}>12PM</Text>
-                <View style={[styles.rhythmLevel, { height: 45 }]} />
-              </View>
-              <View style={styles.rhythmBar}>
-                <Text style={styles.rhythmTime}>6PM</Text>
-                <View style={[styles.rhythmLevel, { height: 35 }]} />
-              </View>
-              <View style={styles.rhythmBar}>
-                <Text style={styles.rhythmTime}>12AM</Text>
-                <View style={[styles.rhythmLevel, { height: 10 }]} />
-              </View>
-            </View>
-            <Text style={styles.rhythmInsight}>Your gut is most active around lunch time 🍽️</Text>
-          </View>
-        </View>
-
-        {/* Gamified Challenges */}
-        <View style={styles.challengeSection}>
-          <Text style={styles.sectionTitle}>Today's Challenges 🎯</Text>
-          <View style={styles.challengeGrid}>
-            <TouchableOpacity style={styles.challengeCard}>
-              <Text style={styles.challengeIcon}>🥗</Text>
-              <Text style={styles.challengeTitle}>Veggie Hero</Text>
-              <Text style={styles.challengeProgress}>2/5 servings</Text>
-              <View style={styles.challengeBar}>
-                <View style={[styles.challengeFill, { width: '40%' }]} />
-              </View>
-              <Text style={styles.challengeReward}>+50 points</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.challengeCard}>
-              <Text style={styles.challengeIcon}>💧</Text>
-              <Text style={styles.challengeTitle}>Hydration Master</Text>
-              <Text style={styles.challengeProgress}>6/8 glasses</Text>
-              <View style={styles.challengeBar}>
-                <View style={[styles.challengeFill, { width: '75%' }]} />
-              </View>
-              <Text style={styles.challengeReward}>+30 points</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.challengeCard}>
-              <Text style={styles.challengeIcon}>⏰</Text>
-              <Text style={styles.challengeTitle}>Consistency King</Text>
-              <Text style={styles.challengeProgress}>Log 3 meals</Text>
-              <View style={styles.challengeBar}>
-                <View style={[styles.challengeFill, { width: '67%' }]} />
-              </View>
-              <Text style={styles.challengeReward}>+75 points</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Quick Reports Access */}
-        <View style={styles.reportsSection}>
-          <Text style={styles.sectionTitle}>Weekly Reports 📊</Text>
-          <TouchableOpacity style={styles.reportCard}>
-            <View style={styles.reportContent}>
-              <Text style={styles.reportTitle}>Gut Health Score</Text>
-              <Text style={styles.reportScore}>8.2/10</Text>
-              <Text style={styles.reportChange}>↗️ +0.3 from last week</Text>
-            </View>
-            <Text style={styles.reportIcon}>📈</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.reportCard}>
-            <View style={styles.reportContent}>
-              <Text style={styles.reportTitle}>Digestive Insights</Text>
-              <Text style={styles.reportSubtext}>Your best day was Tuesday!</Text>
-              <Text style={styles.reportChange}>View detailed analysis →</Text>
-            </View>
-            <Text style={styles.reportIcon}>🔍</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Mood Check-In */}
-        <View style={styles.moodSection}>
-          <Text style={styles.sectionTitle}>How are you feeling?</Text>
-          <View style={styles.moodButtons}>
-            <TouchableOpacity style={styles.moodButton}>
-              <Text style={styles.moodEmoji}>😊</Text>
-              <Text style={styles.moodLabel}>Great</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.moodButton}>
-              <Text style={styles.moodEmoji}>😐</Text>
-              <Text style={styles.moodLabel}>Okay</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.moodButton}>
-              <Text style={styles.moodEmoji}>😴</Text>
-              <Text style={styles.moodLabel}>Tired</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.moodButton}>
-              <Text style={styles.moodEmoji}>🤢</Text>
-              <Text style={styles.moodLabel}>Unwell</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
+        {/* Main Interactive Summary */}
+        <SummarySection
+          calories={calories.calories}
+          caloriesPct={calories.caloriesPct}
+          hydration={hydration.hydration}
+          hydrationPct={hydration.hydrationPct}
+          lastPoopTime={poop.lastPoopTime}
+          totals={nutrients.totals}
+          mostConsumed={nutrients.mostConsumed}
+          onCaloriesPress={() => calories.setCalModalVisible(true)}
+          onPoopPress={poop.openPoopModalInit}
+          onNutrientsPress={() => nutrients.setNutrientModalVisible(true)}
+          onHydrationIncrement={hydration.incrementHydration}
+          onHydrationDecrement={hydration.decrementHydration}
+          formatTimeObj={poop.formatTimeObj}
+        />
         <View style={{ height: 20 }} />
       </ScrollView>
+
+      {/* All Modals */}
+      <Modals
+        // Calories modal props
+        calModalVisible={calories.calModalVisible}
+        calInput={calories.calInput}
+        setCalInput={calories.setCalInput}
+        setCalModalVisible={calories.setCalModalVisible}
+        saveCalories={calories.saveCalories}
+         caloriesStyles={calories.styles}
+        
+        // Poop modal props
+        poopModalVisible={poop.poopModalVisible}
+        poopHour={poop.poopHour}
+        poopMinute={poop.poopMinute}
+        poopAMPM={poop.poopAMPM}
+        setPoopHour={poop.setPoopHour}
+        setPoopMinute={poop.setPoopMinute}
+        setPoopAMPM={poop.setPoopAMPM}
+        setPoopModalVisible={poop.setPoopModalVisible} // FIXED: Now passes the actual function
+        savePoopTime={poop.savePoopTime}
+        
+        // Simple nutrients modal props
+        nutrientModalVisible={nutrients.nutrientModalVisible}
+        carbsFood={nutrients.carbsFood}
+        carbs={nutrients.carbs}
+        proteinFood={nutrients.proteinFood}
+        protein={nutrients.protein}
+        fatsFood={nutrients.fatsFood}
+        fats={nutrients.fats}
+        setCarbsFood={nutrients.setCarbsFood}
+        setCarbs={nutrients.setCarbs}
+        setProteinFood={nutrients.setProteinFood}
+        setProtein={nutrients.setProtein}
+        setFatsFood={nutrients.setFatsFood}
+        setFats={nutrients.setFats}
+        setNutrientModalVisible={nutrients.setNutrientModalVisible}
+        saveNutrients={nutrients.saveNutrients}
+        
+        // Advanced nutrients modal props
+        nutModalVisible={nutrients.nutModalVisible}
+        selectedNutrient={nutrients.selectedNutrient}
+        foodNameInput={nutrients.foodNameInput}
+        foodGramInput={nutrients.foodGramInput}
+        setSelectedNutrient={nutrients.setSelectedNutrient}
+        setFoodNameInput={nutrients.setFoodNameInput}
+        setFoodGramInput={nutrients.setFoodGramInput}
+        setNutModalVisible={nutrients.setNutModalVisible}
+        addFoodToNutrient={nutrients.addFoodToNutrient}
+        renderFoodsList={renderFoodsList}
+        totals={nutrients.totals}
+      />
     </SafeAreaView>
   );
 };
